@@ -27,6 +27,10 @@
     return model;
 }
 
+- (BOOL)isEdit {
+    return [NSFileManager.defaultManager fileExistsAtPath:self.thumbPath];
+}
+
 - (UIImage *)thumbImage {
     if (_thumbImage == nil && [NSFileManager.defaultManager fileExistsAtPath:self.thumbPath]) {
         _thumbImage = [UIImage imageWithContentsOfFile:self.thumbPath];
