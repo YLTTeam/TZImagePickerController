@@ -35,7 +35,7 @@
 }
 
 - (NSString *)thumbPath {
-    return [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", self.asset.localIdentifier]];
+    return [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", [self.asset.localIdentifier stringByReplacingOccurrencesOfString:@"/" withString:@"_"]]];
 }
 
 @end
