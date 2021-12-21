@@ -27,6 +27,15 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy) NSString *timeLength;
 @property (nonatomic, assign) BOOL iCloudFailed;
 
+/** 是否被隐藏 */
+@property (nonatomic, assign) BOOL isHidden;
+/** 是否收藏过 */
+@property (nonatomic, assign) BOOL isFavorite;
+/** 是否编辑过 */
+@property (nonatomic, assign) BOOL isEdit;
+/** 是否导出过 */
+@property (nonatomic, assign) BOOL isExport;
+
 /// Init a photo dataModel With a PHAsset
 /// 用一个PHAsset实例，初始化一个照片模型
 + (instancetype)modelWithAsset:(PHAsset *)asset type:(TZAssetModelMediaType)type;

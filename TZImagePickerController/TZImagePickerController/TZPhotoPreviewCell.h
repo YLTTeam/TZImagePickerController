@@ -34,6 +34,8 @@
 
 
 @interface TZPhotoPreviewView : UIView
+/** 原图 */
+@property (nonatomic, strong) UIImage *originalImage;
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIView *imageContainerView;

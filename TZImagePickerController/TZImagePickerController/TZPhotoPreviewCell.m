@@ -171,7 +171,8 @@
         // 先显示缩略图
         [[TZImageManager manager] getPhotoWithAsset:model.asset completion:^(UIImage *photo, NSDictionary *info, BOOL isDegraded) {
             if (photo) {
-                self.imageView.image = photo;
+                self.originalImage = photo;
+                self.imageView.image = self.originalImage;
             }
             [self resizeSubviews];
             if (self.isRequestingGIF) {
@@ -206,7 +207,8 @@
                     if ([TZImagePickerConfig sharedInstance].gifImagePlayBlock) {
                         [TZImagePickerConfig sharedInstance].gifImagePlayBlock(self, self.imageView, data, info);
                     } else {
-                        self.imageView.image = [UIImage sd_tz_animatedGIFWithData:data];
+                        self.originalImage = [UIImage sd_tz_animatedGIFWithData:data];
+                        self.imageView.image = self.originalImage;
                     }
                     [self resizeSubviews];
                 }
@@ -232,6 +234,7 @@
         }
         if (![asset isEqual:self->_asset]) return;
         if (photo) {
+            self.originalImage = photo;
             self.imageView.image = photo;
         }
         [self resizeSubviews];
