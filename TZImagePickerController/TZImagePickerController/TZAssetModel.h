@@ -36,6 +36,11 @@ typedef enum : NSUInteger {
 /** 是否导出过 */
 @property (nonatomic, assign) BOOL isExport;
 
+/** 编辑后缩略图路径 */
+@property (nonatomic, strong) NSString *thumbPath;
+/** 编辑后的缩略图 */
+@property (nonatomic, strong) UIImage *thumbImage;
+
 /// Init a photo dataModel With a PHAsset
 /// 用一个PHAsset实例，初始化一个照片模型
 + (instancetype)modelWithAsset:(PHAsset *)asset type:(TZAssetModelMediaType)type;

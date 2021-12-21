@@ -36,26 +36,33 @@
 
 - (void)setModel:(TZAssetModel *)model {
     _model = model;
-    self.representedAssetIdentifier = model.asset.localIdentifier;
-    int32_t imageRequestID = [[TZImageManager manager] getPhotoWithAsset:model.asset photoWidth:self.tz_width completion:^(UIImage *photo, NSDictionary *info, BOOL isDegraded) {
-        // Set the cell's thumbnail image if it's still showing the same asset.
-        if ([self.representedAssetIdentifier isEqualToString:model.asset.localIdentifier]) {
-            self.imageView.image = photo;
-            [self setNeedsLayout];
-        } else {
-            // NSLog(@"this cell is showing other asset");
+    if (model.thumbImage) {
+        self.imageView.image = model.thumbImage;
+        [self setNeedsLayout];
+    } else {
+        self.representedAssetIdentifier = model.asset.localIdentifier;
+        int32_t imageRequestID = [[TZImageManager manager] getPhotoWithAsset:model.asset photoWidth:self.tz_width completion:^(UIImage *photo, NSDictionary *info, BOOL isDegraded) {
+            // Set the cell's thumbnail image if it's still showing the same asset.
+            if ([self.representedAssetIdentifier isEqualToString:model.asset.localIdentifier]) {
+                self.imageView.image = photo;
+                model.thumbImage = photo;
+                [self setNeedsLayout];
+            } else {
+                // NSLog(@"this cell is showing other asset");
+                [[PHImageManager defaultManager] cancelImageRequest:self.imageRequestID];
+            }
+            if (!isDegraded) {
+                [self hideProgressView];
+                self.imageRequestID = 0;
+            }
+        } progressHandler:nil networkAccessAllowed:NO];
+        if (imageRequestID && self.imageRequestID && imageRequestID != self.imageRequestID) {
             [[PHImageManager defaultManager] cancelImageRequest:self.imageRequestID];
+            // NSLog(@"cancelImageRequest %d",self.imageRequestID);
         }
-        if (!isDegraded) {
-            [self hideProgressView];
-            self.imageRequestID = 0;
-        }
-    } progressHandler:nil networkAccessAllowed:NO];
-    if (imageRequestID && self.imageRequestID && imageRequestID != self.imageRequestID) {
-        [[PHImageManager defaultManager] cancelImageRequest:self.imageRequestID];
-        // NSLog(@"cancelImageRequest %d",self.imageRequestID);
+        self.imageRequestID = imageRequestID;
     }
-    self.imageRequestID = imageRequestID;
+    
     self.selectPhotoButton.selected = model.isSelected;
     self.selectImageView.image = self.selectPhotoButton.isSelected ? self.photoSelImage : self.photoDefImage;
     self.indexLabel.hidden = !self.selectPhotoButton.isSelected;

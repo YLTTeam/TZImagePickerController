@@ -27,6 +27,17 @@
     return model;
 }
 
+- (UIImage *)thumbImage {
+    if (_thumbImage == nil && [NSFileManager.defaultManager fileExistsAtPath:self.thumbPath]) {
+        _thumbImage = [UIImage imageWithContentsOfFile:self.thumbPath];
+    }
+    return _thumbImage;
+}
+
+- (NSString *)thumbPath {
+    return [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", self.asset.localIdentifier]];
+}
+
 @end
 
 
