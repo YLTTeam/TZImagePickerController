@@ -40,6 +40,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSString *thumbPath;
 /** 编辑后的缩略图 */
 @property (nonatomic, strong) UIImage *thumbImage;
+/** 编辑文件路径 */
+@property (nonatomic, strong) NSString *jsonPath;
 
 /// Init a photo dataModel With a PHAsset
 /// 用一个PHAsset实例，初始化一个照片模型
